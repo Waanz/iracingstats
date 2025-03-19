@@ -1,3 +1,4 @@
+#/bin/sh
 echo Votre email en minuscule svp:
 read input1
 EMAIL="$input1"
