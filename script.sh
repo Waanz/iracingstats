@@ -24,17 +24,17 @@ BODY="{\"email\": \"$EMAIL\", \"password\": \"$ENCODEDPW\"}"
 #ceci nous donne un lien web avec le nombre de chunk de donner. pour indi 1h nous avions 3chunk, peut etre un 4 pourrait être nécessaire si on fait plus de tours et nous sommes plus nombreux.
 lapdata=$(/usr/bin/curl -s -b cookie-jar.txt -X GET -H 'Content-Type: application/json' "https://members-ng.iracing.com/data/results/lap_chart_data?subsession_id=$input3&simsession_number=0" | jq -r .link)
 
-if [ -n $lapdata ] ; then 
+if [ -n $lapdata ] ; then
 #on construit les urls de chacun des chunks
   chunk0=$(curl -s $lapdata | jq -r '.chunk_info.base_download_url + "" + .chunk_info.chunk_file_names.[0]')
-  chunk1=$(curl -s $lapdata | jq -r '.chunk_info.base_download_url + "" + .chunk_info.chunk_file_names.[1]')
-  chunk2=$(curl -s $lapdata | jq -r '.chunk_info.base_download_url + "" + .chunk_info.chunk_file_names.[2]')
+  chunk1=$(curl -s $lapdata | jq -r '.chunk_info.base_download_url + "" + .chunk_info.chunk_file_names.[1]') 2> /dev/null
+  chunk2=$(curl -s $lapdata | jq -r '.chunk_info.base_download_url + "" + .chunk_info.chunk_file_names.[2]') 2> dev/null
 
   #pour chaucun des chunks on va checker les laps avec contacts par pilote et on affiche le numéro de lap
   curl -s $chunk0  | jq '.[] | select ( .lap_events | contains(["contact"])) | .name + ":" + (.lap_number|tostring)'
-  curl -s $chunk1  | jq '.[] | select ( .lap_events | contains(["contact"])) | .name + ":" + (.lap_number|tostring)'
-  curl -s $chunk2  | jq '.[] | select ( .lap_events | contains(["contact"])) | .name + ":" + (.lap_number|tostring)'
+  curl -s $chunk1  | jq '.[] | select ( .lap_events | contains(["contact"])) | .name + ":" + (.lap_number|tostring)' 2> /dev/null
+  curl -s $chunk2  | jq '.[] | select ( .lap_events | contains(["contact"])) | .name + ":" + (.lap_number|tostring)' 2> /dev/null
 else
   echo 
   echo probleme 
-fi 
+fi
