@@ -15,7 +15,7 @@ ENCODEDPW=$(echo -n $PASSWORD$EMAILLOWER | openssl dgst -binary -sha256 | openss
 BODY="{\"email\": \"$EMAIL\", \"password\": \"$ENCODEDPW\"}" 
 
 #on efface le fichier de cookie pour partir à neuf dans le cas que nous l'avions déjà utiliser
-\rm cookie-jar.txt
+\rm cookie-jar.txt 2>/dev/null
 
 #On s'authentifie et on garde le cookie dans le fichier
 /usr/bin/curl -c cookie-jar.txt -X POST -H 'Content-Type: application/json' --data "$BODY" https://members-ng.iracing.com/auth
