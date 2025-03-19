@@ -34,6 +34,7 @@ if [ -n $lapdata ] ; then
   curl -s $chunk0  | jq '.[] | select ( .lap_events | contains(["contact"])) | .name + ":" + (.lap_number|tostring)'
   curl -s $chunk1  | jq '.[] | select ( .lap_events | contains(["contact"])) | .name + ":" + (.lap_number|tostring)' 2> /dev/null
   curl -s $chunk2  | jq '.[] | select ( .lap_events | contains(["contact"])) | .name + ":" + (.lap_number|tostring)' 2> /dev/null
+  echo "Payer une bière à JP"
 else
   echo 
   echo probleme 
