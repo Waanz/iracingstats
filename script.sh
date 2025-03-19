@@ -28,7 +28,7 @@ if [ -n $lapdata ] ; then
 #on construit les urls de chacun des chunks
   chunk0=$(curl -s $lapdata | jq -r '.chunk_info.base_download_url + "" + .chunk_info.chunk_file_names.[0]')
   chunk1=$(curl -s $lapdata | jq -r '.chunk_info.base_download_url + "" + .chunk_info.chunk_file_names.[1]') 2> /dev/null
-  chunk2=$(curl -s $lapdata | jq -r '.chunk_info.base_download_url + "" + .chunk_info.chunk_file_names.[2]') 2> dev/null
+  chunk2=$(curl -s $lapdata | jq -r '.chunk_info.base_download_url + "" + .chunk_info.chunk_file_names.[2]') 2> /dev/null
 
   #pour chaucun des chunks on va checker les laps avec contacts par pilote et on affiche le numéro de lap
   curl -s $chunk0  | jq '.[] | select ( .lap_events | contains(["contact"])) | .name + ":" + (.lap_number|tostring)'
